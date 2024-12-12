@@ -1,0 +1,153 @@
+// import React, { useState, useEffect } from 'react';
+// import { useHistory } from 'react-router-dom';
+
+// // Sample data to simulate saved itineraries, preferences, and favorites
+// const sampleItineraries = [
+//   { id: 1, name: 'Summer Trip to Paris', activities: ['Visit Eiffel Tower', 'Explore Louvre'] },
+//   { id: 2, name: 'Adventure in Japan', activities: ['Climb Mount Fuji', 'Visit Kyoto Temples'] },
+// ];
+
+// const samplePreferences = {
+//   budget: '2000',
+//   region: 'Europe',
+//   type: 'Adventure',
+// };
+
+// const sampleFavorites = ['Paris', 'Tokyo', 'Maldives'];
+
+// const ProfilePage = () => {
+//   const [itineraries, setItineraries] = useState([]);
+//   const [preferences, setPreferences] = useState({});
+//   const [favorites, setFavorites] = useState([]);
+//   const [newItineraryName, setNewItineraryName] = useState('');
+//   const [newActivity, setNewActivity] = useState('');
+
+//   const history = useHistory();
+
+//   useEffect(() => {
+//     // Simulate fetching user data from a database (e.g., Firebase or API)
+//     setItineraries(sampleItineraries);
+//     setPreferences(samplePreferences);
+//     setFavorites(sampleFavorites);
+//   }, []);
+
+//   // Handle saving a new itinerary
+//   const handleSaveItinerary = () => {
+//     if (newItineraryName && newActivity) {
+//       setItineraries([
+//         ...itineraries,
+//         { id: itineraries.length + 1, name: newItineraryName, activities: [newActivity] },
+//       ]);
+//       setNewItineraryName('');
+//       setNewActivity('');
+//     }
+//   };
+
+//   // Handle removing an itinerary
+//   const handleRemoveItinerary = (id) => {
+//     setItineraries(itineraries.filter((itinerary) => itinerary.id !== id));
+//   };
+
+//   // Handle updating preferences
+//   const handleUpdatePreferences = () => {
+//     // Example of updating preferences
+//     setPreferences({ ...preferences, budget: '3000' });
+//   };
+
+//   // Handle adding a favorite
+//   const handleAddFavorite = (destination) => {
+//     setFavorites([...favorites, destination]);
+//   };
+
+//   return (
+//     <div className="container mx-auto p-4">
+//       <h1 className="text-3xl font-bold mb-4">Profile</h1>
+//       {/* User Info */}
+//       <div className="bg-white p-4 rounded shadow mb-4">
+//         <h2 className="text-2xl font-semibold">User Information</h2>
+//         <p className="mb-2">Name: John Doe</p>
+//         <p className="mb-2">Email: john.doe@example.com</p>
+//       </div>
+
+//       {/* Saved Itineraries */}
+//       <div className="bg-white p-4 rounded shadow mb-4">
+//         <h2 className="text-2xl font-semibold">Saved Itineraries</h2>
+//         <ul className="list-none">
+//           {itineraries.map((itinerary) => (
+//             <li key={itinerary.id} className="mb-2">
+//               <span>{itinerary.name}</span>
+//               <ul>
+//                 {itinerary.activities.map((activity, index) => (
+//                   <li key={index}>{activity}</li>
+//                 ))}
+//               </ul>
+//               <button
+//                 onClick={() => handleRemoveItinerary(itinerary.id)}
+//                 className="text-red-600 mt-2"
+//               >
+//                 Remove
+//               </button>
+//             </li>
+//           ))}
+//         </ul>
+//         <div className="mt-4">
+//           <h3>Create New Itinerary</h3>
+//           <input
+//             type="text"
+//             placeholder="Itinerary Name"
+//             value={newItineraryName}
+//             onChange={(e) => setNewItineraryName(e.target.value)}
+//             className="border p-2"
+//           />
+//           <input
+//             type="text"
+//             placeholder="Activity"
+//             value={newActivity}
+//             onChange={(e) => setNewActivity(e.target.value)}
+//             className="border p-2"
+//           />
+//           <button
+//             onClick={handleSaveItinerary}
+//             className="bg-teal-600 text-white p-2 rounded ml-2"
+//           >
+//             Save Itinerary
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Travel Preferences */}
+//       <div className="bg-white p-4 rounded shadow mb-4">
+//         <h2 className="text-2xl font-semibold">Travel Preferences</h2>
+//         <p>Budget: ${preferences.budget}</p>
+//         <p>Region: {preferences.region}</p>
+//         <p>Type: {preferences.type}</p>
+//         <button
+//           onClick={handleUpdatePreferences}
+//           className="bg-teal-600 text-white p-2 rounded mt-4"
+//         >
+//           Update Preferences
+//         </button>
+//       </div>
+
+//       {/* Favorites */}
+//       <div className="bg-white p-4 rounded shadow mb-4">
+//         <h2 className="text-2xl font-semibold">Favorite Destinations</h2>
+//         <ul className="list-none">
+//           {favorites.map((destination, index) => (
+//             <li key={index} className="mb-2">
+//               {destination}
+//             </li>
+//           ))}
+//         </ul>
+//         <button
+//           onClick={() => handleAddFavorite('New York')}
+//           className="bg-teal-600 text-white p-2 rounded mt-4"
+//         >
+//           Add Favorite Destination
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default ProfilePage;
