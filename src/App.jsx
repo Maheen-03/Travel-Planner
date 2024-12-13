@@ -3,6 +3,11 @@ import Navbar from './Components/Navbar/Navbar';
 import DestinationsPage from './pages/DestinationsPage';
 import HomePage from './pages/HomePage';
 import TripPlanner from './pages/TripPlanner';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './Login';
+import SignUpForm from './SignUpForm';
+//import Dashboard from './pages/Dashboard'; // Make sure Dashboard exists
+import './App.css';
 
 const App = () => {
   const navbarContent = [
@@ -15,10 +20,17 @@ const App = () => {
 
   return (
     <div>
-      <Navbar title="Wanderly" content={navbarContent} />
-      <HomePage />
-      <DestinationsPage />
-      <TripPlanner />
+      <BrowserRouter>
+        <Navbar title="Wanderly" content={navbarContent} /> {/* Display navbar on all pages */}
+        
+        <Routes>
+          <Route path="/signup" element={<SignUpForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/destinations" element={<DestinationsPage />} />
+          <Route path="/trip-planner" element={<TripPlanner />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
