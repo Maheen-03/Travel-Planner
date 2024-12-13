@@ -1,17 +1,17 @@
-import React from 'react';
-import DestinationsPage from './pages/DestinationsPage';
-import HomePage from './pages/HomePage';
-import TripPlanner from './pages/TripPlanner';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import SignUpForm from './pages/SignUpForm';
-import LandingPage from './pages/LandingPage';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import './App.css';
+import React from "react";
+import DestinationsPage from "./pages/DestinationsPage";
+import HomePage from "./pages/HomePage";
+import TripPlanner from "./pages/TripPlanner";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import SignUpForm from "./pages/SignUpForm";
+import LandingPage from "./pages/LandingPage";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import "./App.css";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  
+
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

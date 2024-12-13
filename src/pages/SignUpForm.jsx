@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const SignUpForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { signup } = useAuth();
@@ -15,16 +15,16 @@ const SignUpForm = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+      return setError("Passwords do not match");
     }
 
     try {
-      setError('');
+      setError("");
       setLoading(true);
       await signup(email, password);
-      navigate('/homepage');
+      navigate("/homepage");
     } catch (err) {
-      setError('Failed to create an account. Please try again.');
+      setError("Failed to create an account. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -34,12 +34,17 @@ const SignUpForm = () => {
     <div className="min-h-screen bg-gradient-to-br from-teal-500 to-teal-800 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-2xl">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-teal-800 mb-2">Create Account</h2>
+          <h2 className="text-4xl font-bold text-teal-800 mb-2">
+            Create Account
+          </h2>
           <p className="text-gray-600">Start your journey with Wanderly</p>
         </div>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+            role="alert"
+          >
             <span className="block sm:inline">{error}</span>
           </div>
         )}
@@ -47,7 +52,10 @@ const SignUpForm = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Email address
               </label>
               <input
@@ -63,7 +71,10 @@ const SignUpForm = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -79,7 +90,10 @@ const SignUpForm = () => {
             </div>
 
             <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirm Password
               </label>
               <input
@@ -100,17 +114,20 @@ const SignUpForm = () => {
               type="submit"
               disabled={loading}
               className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-                loading ? 'opacity-50 cursor-not-allowed' : ''
+                loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? 'Creating account...' : 'Create Account'}
+              {loading ? "Creating account..." : "Create Account"}
             </button>
           </div>
 
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
-              <Link to="/login" className="font-medium text-teal-600 hover:text-teal-500">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="font-medium text-teal-600 hover:text-teal-500"
+              >
                 Sign in
               </Link>
             </p>

@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase';
-import { 
-  onAuthStateChanged, 
-  signOut, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword 
-} from 'firebase/auth';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { auth } from "../firebase";
+import {
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 const AuthContext = createContext();
 
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     signup,
     login,
     logout,
-    isAuthenticated: !!currentUser
+    isAuthenticated: !!currentUser,
   };
 
   return (
@@ -51,4 +51,4 @@ export const AuthProvider = ({ children }) => {
       {!loading && children}
     </AuthContext.Provider>
   );
-}; 
+};

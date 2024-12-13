@@ -10,7 +10,7 @@ const destinations = [
     region: "Europe",
     type: "Cultural",
     budget: 1500,
-    image: "/paris.jpg",
+    image: "/Travel-Planner/paris.jpg",
     rating: 4.5,
     description:
       "The City of Light beckons with its magnificent art, architecture, culture, and cuisine.",
@@ -22,7 +22,7 @@ const destinations = [
     region: "Asia",
     type: "Adventure",
     budget: 2000,
-    image: "/tokyo.jpg",
+    image: "/Travel-Planner/tokyo.jpg",
     rating: 4.7,
     description:
       "A dazzling blend of modern technology and traditional culture.",
@@ -34,7 +34,7 @@ const destinations = [
     region: "Americas",
     type: "Cultural",
     budget: 1800,
-    image: "/newyork.jpg",
+    image: "/Travel-Planner/newyork.jpg",
     rating: 4.6,
     description:
       "The city that never sleeps offers endless entertainment and cultural experiences.",

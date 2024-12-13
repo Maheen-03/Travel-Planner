@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
-import enUS from 'date-fns/locale/en-US';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Navbar from '../Components/Navbar/Navbar';
+import React, { useState } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import format from "date-fns/format";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import getDay from "date-fns/getDay";
+import enUS from "date-fns/locale/en-US";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import Navbar from "../Components/Navbar/Navbar";
 
 const locales = {
-  'en-US': enUS
+  "en-US": enUS,
 };
 
 const localizer = dateFnsLocalizer({
@@ -28,53 +28,56 @@ const TripPlanner = () => {
     type: "",
     start: new Date(),
     end: new Date(),
-    description: ""
+    description: "",
   });
 
   const handleAddEvent = (e) => {
     e.preventDefault();
-    setEvents([...events, {
-      ...newEvent,
-      id: Date.now()
-    }]);
+    setEvents([
+      ...events,
+      {
+        ...newEvent,
+        id: Date.now(),
+      },
+    ]);
     setShowModal(false);
     setNewEvent({
       title: "",
       type: "",
       start: new Date(),
       end: new Date(),
-      description: ""
+      description: "",
     });
   };
 
   const eventStyleGetter = (event) => {
-    let backgroundColor = '#009688';
+    let backgroundColor = "#009688";
     switch (event.type) {
-      case 'Sightseeing':
-        backgroundColor = '#2196F3';
+      case "Sightseeing":
+        backgroundColor = "#2196F3";
         break;
-      case 'Entertainment':
-        backgroundColor = '#FF5722';
+      case "Entertainment":
+        backgroundColor = "#FF5722";
         break;
-      case 'Relaxation':
-        backgroundColor = '#4CAF50';
+      case "Relaxation":
+        backgroundColor = "#4CAF50";
         break;
-      case 'Adventure':
-        backgroundColor = '#FFC107';
+      case "Adventure":
+        backgroundColor = "#FFC107";
         break;
       default:
-        backgroundColor = '#009688';
+        backgroundColor = "#009688";
     }
 
     return {
       style: {
         backgroundColor,
-        borderRadius: '5px',
+        borderRadius: "5px",
         opacity: 0.8,
-        color: 'white',
-        border: '0px',
-        display: 'block'
-      }
+        color: "white",
+        border: "0px",
+        display: "block",
+      },
     };
   };
 
@@ -100,14 +103,14 @@ const TripPlanner = () => {
             endAccessor="end"
             style={{ height: 700 }}
             eventPropGetter={eventStyleGetter}
-            views={['month', 'week', 'day']}
+            views={["month", "week", "day"]}
             popup
             selectable
             onSelectSlot={(slotInfo) => {
-              setNewEvent(prev => ({
+              setNewEvent((prev) => ({
                 ...prev,
                 start: slotInfo.start,
-                end: slotInfo.end
+                end: slotInfo.end,
               }));
               setShowModal(true);
             }}
@@ -122,23 +125,31 @@ const TripPlanner = () => {
               <form onSubmit={handleAddEvent}>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Event Title</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Event Title
+                    </label>
                     <input
                       type="text"
                       required
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                       value={newEvent.title}
-                      onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                      onChange={(e) =>
+                        setNewEvent({ ...newEvent, title: e.target.value })
+                      }
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Event Type</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Event Type
+                    </label>
                     <select
                       required
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                       value={newEvent.type}
-                      onChange={(e) => setNewEvent({ ...newEvent, type: e.target.value })}
+                      onChange={(e) =>
+                        setNewEvent({ ...newEvent, type: e.target.value })
+                      }
                     >
                       <option value="">Select Type</option>
                       <option value="Sightseeing">Sightseeing</option>
@@ -149,33 +160,54 @@ const TripPlanner = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Start Date
+                    </label>
                     <input
                       type="datetime-local"
                       required
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                       value={format(newEvent.start, "yyyy-MM-dd'T'HH:mm")}
-                      onChange={(e) => setNewEvent({ ...newEvent, start: new Date(e.target.value) })}
+                      onChange={(e) =>
+                        setNewEvent({
+                          ...newEvent,
+                          start: new Date(e.target.value),
+                        })
+                      }
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">End Date</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      End Date
+                    </label>
                     <input
                       type="datetime-local"
                       required
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                       value={format(newEvent.end, "yyyy-MM-dd'T'HH:mm")}
-                      onChange={(e) => setNewEvent({ ...newEvent, end: new Date(e.target.value) })}
+                      onChange={(e) =>
+                        setNewEvent({
+                          ...newEvent,
+                          end: new Date(e.target.value),
+                        })
+                      }
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Description
+                    </label>
                     <textarea
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
                       value={newEvent.description}
-                      onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                      onChange={(e) =>
+                        setNewEvent({
+                          ...newEvent,
+                          description: e.target.value,
+                        })
+                      }
                       rows="3"
                     />
                   </div>
