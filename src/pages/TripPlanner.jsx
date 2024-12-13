@@ -1,135 +1,206 @@
-import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import React, { useState } from 'react';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
+import enUS from 'date-fns/locale/en-US';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Navbar from '../Components/Navbar/Navbar';
 
-// Sample activities
-const initialActivities = [
-  { id: "1", name: "Visit Eiffel Tower" },
-  { id: "2", name: "Explore Tokyo Disneyland" },
-  { id: "3", name: "Relax at Maldives Beach" },
-  { id: "4", name: "Safari Adventure in Kenya" },
-];
+const locales = {
+  'en-US': enUS
+};
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 const TripPlanner = () => {
-  const [activities, setActivities] = useState(initialActivities);
-  const [days, setDays] = useState({
-    day1: [],
-    day2: [],
-    day3: [],
+  const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [newEvent, setNewEvent] = useState({
+    title: "",
+    type: "",
+    start: new Date(),
+    end: new Date(),
+    description: ""
   });
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
+  const handleAddEvent = (e) => {
+    e.preventDefault();
+    setEvents([...events, {
+      ...newEvent,
+      id: Date.now()
+    }]);
+    setShowModal(false);
+    setNewEvent({
+      title: "",
+      type: "",
+      start: new Date(),
+      end: new Date(),
+      description: ""
+    });
+  };
 
-    // If no destination, exit
-    if (!destination) return;
-
-    // Dragging from activityList
-    if (source.droppableId === "activityList") {
-      const draggedActivity = activities[source.index];
-
-      // Remove from activity list
-      const updatedActivities = [...activities];
-      updatedActivities.splice(source.index, 1);
-
-      // Add to destination day
-      const updatedDay = [...days[destination.droppableId]];
-      updatedDay.splice(destination.index, 0, draggedActivity);
-
-      setActivities(updatedActivities);
-      setDays((prev) => ({
-        ...prev,
-        [destination.droppableId]: updatedDay,
-      }));
-    } else {
-      const sourceDay = [...days[source.droppableId]];
-      const [draggedItem] = sourceDay.splice(source.index, 1);
-      const destinationDay = [...days[destination.droppableId]];
-      destinationDay.splice(destination.index, 0, draggedItem);
-
-      setDays((prev) => ({
-        ...prev,
-        [source.droppableId]: sourceDay,
-        [destination.droppableId]: destinationDay,
-      }));
+  const eventStyleGetter = (event) => {
+    let backgroundColor = '#009688';
+    switch (event.type) {
+      case 'Sightseeing':
+        backgroundColor = '#2196F3';
+        break;
+      case 'Entertainment':
+        backgroundColor = '#FF5722';
+        break;
+      case 'Relaxation':
+        backgroundColor = '#4CAF50';
+        break;
+      case 'Adventure':
+        backgroundColor = '#FFC107';
+        break;
+      default:
+        backgroundColor = '#009688';
     }
+
+    return {
+      style: {
+        backgroundColor,
+        borderRadius: '5px',
+        opacity: 0.8,
+        color: 'white',
+        border: '0px',
+        display: 'block'
+      }
+    };
   };
 
   return (
-    <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">Trip Planner</h1>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Activity List */}
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Available Activities</h2>
-            <Droppable droppableId="activityList">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="bg-white p-4 rounded shadow min-h-[300px]"
-                >
-                  {activities.map((activity, index) => (
-                    <Draggable
-                      key={activity.id}
-                      draggableId={activity.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="p-2 mb-2 bg-teal-600 text-white rounded cursor-pointer"
-                        >
-                          {activity.name}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
-
-          {/* Calendar (Days) */}
-          {Object.keys(days).map((dayKey) => (
-            <div key={dayKey}>
-              <h2 className="text-xl font-semibold mb-2 capitalize">{dayKey}</h2>
-              <Droppable droppableId={dayKey}>
-                {(provided) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    className="bg-white p-4 rounded shadow min-h-[300px]"
-                  >
-                    {days[dayKey].map((activity, index) => (
-                      <Draggable
-                        key={activity.id}
-                        draggableId={activity.id}
-                        index={index}
-                      >
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="p-2 mb-2 bg-teal-600 text-white rounded cursor-pointer"
-                          >
-                            {activity.name}
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </div>
-          ))}
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      <div className="container mx-auto p-4 pt-20">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-teal-800">Trip Planner</h1>
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors"
+          >
+            Add Event
+          </button>
         </div>
-      </DragDropContext>
+
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 700 }}
+            eventPropGetter={eventStyleGetter}
+            views={['month', 'week', 'day']}
+            popup
+            selectable
+            onSelectSlot={(slotInfo) => {
+              setNewEvent(prev => ({
+                ...prev,
+                start: slotInfo.start,
+                end: slotInfo.end
+              }));
+              setShowModal(true);
+            }}
+          />
+        </div>
+
+        {/* Add Event Modal */}
+        {showModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md">
+              <h2 className="text-2xl font-bold mb-4">Add Event</h2>
+              <form onSubmit={handleAddEvent}>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Event Title</label>
+                    <input
+                      type="text"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                      value={newEvent.title}
+                      onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Event Type</label>
+                    <select
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                      value={newEvent.type}
+                      onChange={(e) => setNewEvent({ ...newEvent, type: e.target.value })}
+                    >
+                      <option value="">Select Type</option>
+                      <option value="Sightseeing">Sightseeing</option>
+                      <option value="Entertainment">Entertainment</option>
+                      <option value="Relaxation">Relaxation</option>
+                      <option value="Adventure">Adventure</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                    <input
+                      type="datetime-local"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                      value={format(newEvent.start, "yyyy-MM-dd'T'HH:mm")}
+                      onChange={(e) => setNewEvent({ ...newEvent, start: new Date(e.target.value) })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">End Date</label>
+                    <input
+                      type="datetime-local"
+                      required
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                      value={format(newEvent.end, "yyyy-MM-dd'T'HH:mm")}
+                      onChange={(e) => setNewEvent({ ...newEvent, end: new Date(e.target.value) })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                      value={newEvent.description}
+                      onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
+                      rows="3"
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-end space-x-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700"
+                  >
+                    Add Event
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

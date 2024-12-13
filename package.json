@@ -12,9 +12,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "firebase": "^9.6.11",
+    "motion": "^11.14.3",
     "react": "^18.3.1",
     "react-beautiful-dnd": "^13.1.1",
+    "react-big-calendar": "^1.17.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.8.1"
   },
