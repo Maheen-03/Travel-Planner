@@ -2,7 +2,7 @@ import React from 'react';
 import DestinationsPage from './pages/DestinationsPage';
 import HomePage from './pages/HomePage';
 import TripPlanner from './pages/TripPlanner';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import SignUpForm from './pages/SignUpForm';
 import LandingPage from './pages/LandingPage';
@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <HashRouter>
         <div className="min-h-screen bg-gray-50">
           <Routes>
             <Route path="/" element={<LandingPage />} />
@@ -53,7 +53,7 @@ const App = () => {
             />
           </Routes>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   );
 };
